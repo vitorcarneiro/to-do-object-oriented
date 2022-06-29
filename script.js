@@ -1,3 +1,52 @@
+class Board {
+  constructor({ id, title }) {
+    this.id = id;
+    this.title = title;
+    this.tasks = [];
+  }
+
+  onAddTask(task) {
+    this.tasks.push(task);
+  }
+
+  onRemoveTask(taskId) {
+
+
+  }
+
+  createDuplicate(id) {
+    const newBoard = structuredClone(this);
+    newBoard.id = id;
+    newBoard.title = `${newBoard.title} Copy`;
+    
+    return newBoard;
+  }
+
+  onDelete() {
+
+  }
+
+  onRename(title) {
+    this.title = title
+  }
+}
+
+class Task {
+  constructor({ id, name, completed }) {
+    this.id = id;
+    this.name = name;
+    this.completed = completed;
+  }
+
+  onComplete() {
+    this.completed = true;
+  }
+  
+  onUndo() {
+    this.completed = false;
+  }
+}
+
 function onDuplicateBoard(board) {
   const boardsContainer = document.querySelector(".boards");
   const newBoard = structuredClone(board);
@@ -30,12 +79,13 @@ function onDeleteBoard(boardId) {
 }
 
 function onAddBoard(newBoardTitle) {
-  const board = {
+  const board = new Board({
     id: getNextBoardId(),
     title: newBoardTitle,
-    tasks: [],
-  };
+  })
+  console.log('board: ', board);
   boards.push(board);
+  console.log('boards: ', boards);
 
   const boardsContainer = document.querySelector(".boards");
   const boardContainer = getBoardView(board);
